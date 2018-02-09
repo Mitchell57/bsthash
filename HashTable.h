@@ -20,9 +20,7 @@ class HashTable {
   ~HashTable();
   
   //insert
-  void insert(string word, int counter);
-
-  void insert(HashEntry e);
+  void insert(string word);
   
   //delete
   void remove(string w);

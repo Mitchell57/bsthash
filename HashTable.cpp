@@ -27,12 +27,12 @@ HashTable::~HashTable() {
   delete[] table;
 }
 
-void HashTable::insert(string w, int count){
+void HashTable::insert(string w){
   int h = hash(w);
   int probe = h;
 
   if(table[h] == NULL){
-    table[h] = new HashEntry(w, count);
+    table[h] = new HashEntry(w, 1);
     probe = -1;
   }
   else{
@@ -47,8 +47,10 @@ void HashTable::insert(string w, int count){
   }
 
   while(probe != -1 && probe != h){
+    if(probe%100 == 0)
+      cout << "working...\n";
     if(table[probe] == NULL){
-      table[probe] = new HashEntry(w, count);
+      table[probe] = new HashEntry(w, 1);
       probe = -1;
     }
     else{
@@ -62,8 +64,6 @@ void HashTable::insert(string w, int count){
         probe = h+1;
     }
   }
-  
-  table[h] = new HashEntry(w, count);
 }
 
 void HashTable::remove(string w){
