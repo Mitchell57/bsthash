@@ -3,20 +3,25 @@
 
 #include <string>
 #include <chrono>
+#include <iostream>
+#include "HashTable.h"
+
+using namespace std;
 
 int main(){
   auto start = std::chrono::high_resolution_clock::now();
   //any function we want here
   auto stop = std::chrono::high_resolution_clock::now();
 
-  std::chrono::duration<double, std::milli> fp_ms = stop - start;
+  std::chrono::duration<double, std::milli> execTime = stop - start;
+  HashTable ht = HashTable(100);
+  HashEntry* a = new HashEntry("dog", 5);
+  HashEntry* b = new HashEntry("airplane", 5);
+  HashEntry* c = new HashEntry("food", 5);
+  HashEntry* d = new HashEntry("god", 5);
 
+    
   
   return 0;
 }
 
-float executeTime(void (*function)()){
-  
-
-  return stop-start;
-}

@@ -1,52 +1,49 @@
+
 // hashTable.h - defines hash table implementation
 // Mitchell Lewis, 2-8-18
 
-#ifndef HASTABLE_H
+#ifndef HASHTABLE_H
 #define HASHTABLE_H
 
 #include <string>
+#include "HashEntry.h"
 
 using namespace std;
 
-class hashTable {
+class HashTable {
  public:
 
   // constructor and destructor
-  HashTable(int size);
-
+  HashTable(int inputSize);
+  HashTable();
+  
   ~HashTable();
   
   //insert
   void insert(string word, int counter);
 
-  void insert(node n);
+  void insert(HashEntry e);
   
   //delete
-  void delete(string word);
+  void remove(string w);
 
   //search
-  int search(string word);
+  int search(string w);
   
   //sort
-  void sort();
+  int sort(string w);
   
   //range search
-  string[] rangeSearch(string word1, string word2);
+  int rangeSearch(string w1, string w2);
 
-  
+  int hash(string word);
  private:
 
-  int hash(node n);
+  int size;
+  int capacity;
 
-  typedef struct node{
-    string word;
-    int counter;
-  }
-  
-  node table[];
-
-  
-
-  
+  HashEntry **table;
 
 };
+
+#endif
