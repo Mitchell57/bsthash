@@ -1,0 +1,18 @@
+// main.cpp - Testing and Time-checking of BST and Hash Table implementations
+// Mitchell Lewis, Sean Costello
+
+#include <string>
+#include <chrono>
+
+int main(){
+  
+  return 0;
+}
+
+float executeTime(void (*function)()){
+  auto start = std::chrono::high_resolution_clock::now();
+  (&function());
+  auto stop = std::chrono::high_resolution_clock::now();
+
+  return stop-start;
+}

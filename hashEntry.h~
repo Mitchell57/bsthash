@@ -1,0 +1,16 @@
+// hashEntry.h - defines hash node implementation
+
+#ifndef HASHENTRY_H
+#define HASHENTRY_H
+
+#include<string>
+
+class hashEntry {
+
+ public:
+  
+
+ private:
+  
+
+};

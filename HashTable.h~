@@ -1,0 +1,38 @@
+// hashTable.h - defines hash table implementation
+// Mitchell Lewis, 2-8-18
+
+#ifndef HASTABLE_H
+#define HASHTABLE_H
+
+#include <string>
+
+class hashTable {
+ public:
+
+  
+  // constructor and destructor
+  HashTable(int size);
+
+  ~HashTable();
+  
+  //insert
+
+  //delete
+
+  //search
+
+  //sort
+
+  //range search
+
+ private:
+
+  int hash();
+
+  hashEntry[] table;
+
+  
+
+  
+
+};
