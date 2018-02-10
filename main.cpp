@@ -18,8 +18,17 @@ int main(){
   std::chrono::duration<double, std::milli> execTime = stop - start;
   */
 
-  HashTable* ht = new HashTable(1000);
-
+  HashTable* ht = new HashTable(100);
+  ht->insert("abc");
+  ht->insert("dog");
+  ht->insert("god");
+  ht->insert("airplane");
+  ht->insert("grapes");
+  ht->insert("monorail");
+  ht->insert("get");
+  ht->insert("xylophone");
+  ht->insert("words");
+  ht->insert("airplane");
   
   while(true){
     ostringstream out;
@@ -39,10 +48,10 @@ int main(){
 
 	  std::chrono::duration<double, std::milli> execTime = stop - start;
 	  if(result == -1)
-	    cout << "false\n";
+	    cout << "false" << endl;
 	  else
-	    cout << "true\n";
-	  cout << "Hash: " << execTime.count() << "\n";
+	    cout << "true" << endl;
+	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
 	
@@ -55,29 +64,54 @@ int main(){
           auto stop = std::chrono::high_resolution_clock::now();
 
           std::chrono::duration<double, std::milli> execTime = stop - start;
-	  cout << "Hash: " << execTime.count() << "\n";
+	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
 
       //delete
       case 3:
 	{
-	  cout << "3";
+	  cin >> w;
+	  auto start = std::chrono::high_resolution_clock::now();
+	  ht->remove(w);
+	  auto stop = std::chrono::high_resolution_clock::now();
+
+	  std::chrono::duration<double, std::milli> execTime = stop - start;
+	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
 
       //sort
       case 4:
 	{
-	  cout << "4";
+	  cin >> w;
+	  auto start = std::chrono::high_resolution_clock::now();
+	  ht->sort(w);
+	  auto stop = std::chrono::high_resolution_clock::now();
+
+	  std::chrono::duration<double, std::milli> execTime = stop - start;
+	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
 
-      //range sort
+      //range search
     case 5:
       {
-        cout << "5";
+        string w2;
+	cin >> w;
+	cin >> w2;
+	auto start = std::chrono::high_resolution_clock::now();
+	ht->rangeSearch(w, w2);
+	auto stop = std::chrono::high_resolution_clock::now();
+
+	std::chrono::duration<double, std::milli> execTime = stop-start;
+	cout << "Hash: " << execTime.count() << endl;
 	break;
+      }
+    default:
+      {
+	cin.clear();
+	cout << "Invalid input" << endl;
       }
     }
   }

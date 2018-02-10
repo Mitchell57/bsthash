@@ -29,10 +29,10 @@ class HashTable {
   int search(string w);
   
   //sort
-  int sort(string w);
+  void sort(string path);
   
   //range search
-  int rangeSearch(string w1, string w2);
+  void rangeSearch(string w1, string w2);
 
   int hash(string word);
  private:
