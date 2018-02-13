@@ -85,7 +85,6 @@ int main(){
   HashTable* ht = new HashTable(words.size());
   for(unsigned int i = 0; i<words.size(); i++){
     ht->insert(words.at(i));
-    double pctDone = (((double)i)/words.size()) * 100;
   }
 
   /* Timing template

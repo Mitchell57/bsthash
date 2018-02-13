@@ -16,7 +16,6 @@ HashTable::HashTable(int inputSize){
   for(int i=0; i<capacity; i++){
     table[i] = NULL;
   }
-  cout << "Hash Table initiated with size " << capacity << endl;
 }
 
 // Default constructor
