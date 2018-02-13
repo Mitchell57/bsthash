@@ -11,11 +11,12 @@ using namespace std;
 // Constructor w/ given size
 HashTable::HashTable(int inputSize){
   size = 0;
-  capacity = (3/2) * inputSize;
+  capacity = (3 * inputSize)/2;
   table = new HashEntry*[capacity];
   for(int i=0; i<capacity; i++){
     table[i] = NULL;
   }
+  cout << "Hash Table initiated with size " << capacity << endl;
 }
 
 // Default constructor
@@ -58,8 +59,6 @@ void HashTable::insert(string w){
   }
 
   while(probe != -1 && probe != h){
-    if(probe%100 == 0)
-      cout << "working...\n";
     if(table[probe] == NULL){
       table[probe] = new HashEntry(w, 1);
       size += 1;
@@ -73,7 +72,7 @@ void HashTable::insert(string w){
       else if(probe >= capacity-1)
         probe = 0;
       else
-        probe = h+1;
+        probe += 1;
     }
   }
 }
