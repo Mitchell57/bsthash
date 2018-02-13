@@ -27,6 +27,8 @@ void read_directory(const string& name, vector<string>* v){
   closedir(dirp);
 }
 
+// Parse_text - Takes a pathname and vector address, and adds words to vector from file as long as they are
+// alphabetical and do not match any of the stopwords
 void parse_text(const string& name, vector<string>* v){
   ifstream inFile(name);
   string str;
@@ -73,23 +75,27 @@ int main(){
     }
   }
 
+  // parses the text from each filename found and adds eligible words to list
   vector<string> words;
   for(unsigned int i = 0; i<filenames.size(); i++){
-    cout << "Parsing " << filenames.at(i) << endl;
     parse_text(filenames.at(i), &words);
-    cout << "Success\n";
   }
 
-  cout << words.size() << " = Size\n";
-  
+  //initializes HashTable and inserts all words from list
   HashTable* ht = new HashTable(words.size());
   for(unsigned int i = 0; i<words.size(); i++){
     ht->insert(words.at(i));
-    cout << words.at(i) << " inserted\n";
     double pctDone = (((double)i)/words.size()) * 100;
-    cout << pctDone << "% built\n";
   }
-  cout << "Hash Table built\n";
+
+  /* Timing template
+	  auto start = std::chrono::high_resolution_clock::now();
+          METHOD HERE
+          auto stop = std::chrono::high_resolution_clock::now();
+
+	  std::chrono::duration<double, std::milli> execTime = stop - start;
+	  cout << "Hash/BST: " << execTime.count() << endl;
+  */
   
   // Test interface - Prompts input for 1-5, performs search, insert, remove, sort, and range search respectively
   while(true){
