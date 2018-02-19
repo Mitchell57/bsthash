@@ -95,6 +95,70 @@ int main(){
 	  std::chrono::duration<double, std::milli> execTime = stop - start;
 	  cout << "Hash/BST: " << execTime.count() << endl;
   */
+
+  // Timing tests - sorts words, then grabs 100 words to test times
+  ht->sort("sorted.txt");
+  ifstream inFile("sorted.txt");
+  vector<string> testSet;
+  string str;
+  while(testSet.size() <= 100 && inFile >> str){
+    testSet.push_back(str);
+  }
+  cout << "# of test words: " << testSet.size() << endl;
+
+  // Search test
+  auto start = std::chrono::high_resolution_clock::now();
+  for(unsigned int i=0; i<testSet.size(); i++){
+    ht->search(testSet.at(i));
+  }
+  auto stop = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double, std::milli> execTime = stop - start;
+  cout << "Hash search time: " << execTime.count() << endl;
+
+  //Insert Test
+  start = std::chrono::high_resolution_clock::now();
+  for(unsigned int i=0; i<testSet.size(); i++){
+    ht->insert(testSet.at(i));
+  }
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "Hash insert time: " << execTime.count() << endl;
+
+  //Delete test
+  start = std::chrono::high_resolution_clock::now();
+  for(unsigned int i=0; i<testSet.size(); i++){
+    ht->remove(testSet.at(i));
+  }
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "Hash delete time: " << execTime.count() << endl;
+
+  //Sort Test
+  start = std::chrono::high_resolution_clock::now();
+  ht->sort("sorted.txt");
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "Hash sort time: " << execTime.count() << endl;
+
+  //Range Search for 10, 100, and 1000 words
+  // Used sorted output file to choose increments of 10, 100, and 1000 words
+  start = std::chrono::high_resolution_clock::now();
+  ht->rangeSearch("annual", "answers");
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "Hash range search (n=10): " << execTime.count() << endl;
+
+  start = std::chrono::high_resolution_clock::now();
+  ht->rangeSearch("annual", "applied");
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "Hash range search (n=100): " << execTime.count() << endl;
+
+  start = std::chrono::high_resolution_clock::now();
+  ht->rangeSearch("annual", "breezy");
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "Hash range search (n=1000): " << execTime.count() << endl;
   
   // Test interface - Prompts input for 1-5, performs search, insert, remove, sort, and range search respectively
   while(true){

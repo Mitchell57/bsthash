@@ -120,12 +120,10 @@ void HashTable::sort(string path){
       }
     }
   }
-
+  
   for(i=0; i<size; i++){
-    cout << sortedWords[i] << ", ";
     wordsFile << sortedWords[i] << endl;
   }
-  cout << endl;
   wordsFile.close();
   
 }
