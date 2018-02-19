@@ -124,6 +124,7 @@ void HashTable::sort(string path){
   for(i=0; i<size; i++){
     wordsFile << sortedWords[i] << endl;
   }
+  wordsFile << endl;
   wordsFile.close();
   
 }

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iostream>
 #include "HashTable.h"
+#include "BST.h"
 
 using namespace std;
 
@@ -83,8 +84,10 @@ int main(){
 
   //initializes HashTable and inserts all words from list
   HashTable* ht = new HashTable(words.size());
+  BST *bst = new BST();
   for(unsigned int i = 0; i<words.size(); i++){
     ht->insert(words.at(i));
+    bst->head = bst->insert(words.at(i), bst->head);
   }
 
   /* Timing template
@@ -97,7 +100,9 @@ int main(){
   */
 
   // Timing tests - sorts words, then grabs 100 words to test times
-  ht->sort("sorted.txt");
+  //ht->sort("sorted.txt");
+  //bst->sort("sorted.txt", bst->head);
+  /*
   ifstream inFile("sorted.txt");
   vector<string> testSet;
   string str;
@@ -115,6 +120,14 @@ int main(){
   std::chrono::duration<double, std::milli> execTime = stop - start;
   cout << "Hash search time: " << execTime.count() << endl;
 
+  start = std::chrono::high_resolution_clock::now();
+  for(unsigned int i=0; i<testSet.size(); i++){
+    bst->search(testSet.at(i), bst->head);
+  }
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST search time: " << execTime.count() << endl;
+  
   //Insert Test
   start = std::chrono::high_resolution_clock::now();
   for(unsigned int i=0; i<testSet.size(); i++){
@@ -124,6 +137,14 @@ int main(){
   execTime = stop - start;
   cout << "Hash insert time: " << execTime.count() << endl;
 
+  start = std::chrono::high_resolution_clock::now();
+  for(unsigned int i=0; i<testSet.size(); i++){
+    bst->head = bst->insert(testSet.at(i), bst->head);
+  }
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST insert time: " << execTime.count() << endl;
+  
   //Delete test
   start = std::chrono::high_resolution_clock::now();
   for(unsigned int i=0; i<testSet.size(); i++){
@@ -133,6 +154,14 @@ int main(){
   execTime = stop - start;
   cout << "Hash delete time: " << execTime.count() << endl;
 
+  start = std::chrono::high_resolution_clock::now();
+  for(unsigned int i=0; i<testSet.size(); i++){
+    bst->head = bst->del(testSet.at(i), bst->head);
+  }
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST delete time: " << execTime.count() << endl;
+  
   //Sort Test
   start = std::chrono::high_resolution_clock::now();
   ht->sort("sorted.txt");
@@ -140,6 +169,12 @@ int main(){
   execTime = stop - start;
   cout << "Hash sort time: " << execTime.count() << endl;
 
+  start = std::chrono::high_resolution_clock::now();
+  bst->sort("sorted.txt", bst->head);
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST sort time: " << execTime.count() << endl;
+  
   //Range Search for 10, 100, and 1000 words
   // Used sorted output file to choose increments of 10, 100, and 1000 words
   start = std::chrono::high_resolution_clock::now();
@@ -149,17 +184,35 @@ int main(){
   cout << "Hash range search (n=10): " << execTime.count() << endl;
 
   start = std::chrono::high_resolution_clock::now();
+  bst->rangeSearch("annual", "answers", bst->head);
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST range search (n=10): " << execTime.count() << endl;
+  
+  start = std::chrono::high_resolution_clock::now();
   ht->rangeSearch("annual", "applied");
   stop = std::chrono::high_resolution_clock::now();
   execTime = stop - start;
   cout << "Hash range search (n=100): " << execTime.count() << endl;
 
   start = std::chrono::high_resolution_clock::now();
+  bst->rangeSearch("annual", "applied", bst->head);
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST range search (n=100): " << execTime.count() << endl;
+  
+  start = std::chrono::high_resolution_clock::now();
   ht->rangeSearch("annual", "breezy");
   stop = std::chrono::high_resolution_clock::now();
   execTime = stop - start;
   cout << "Hash range search (n=1000): " << execTime.count() << endl;
-  
+
+  start = std::chrono::high_resolution_clock::now();
+  bst->rangeSearch("annual", "breezy", bst->head);
+  stop = std::chrono::high_resolution_clock::now();
+  execTime = stop - start;
+  cout << "BST range search (n=1000): " << execTime.count() << endl;
+  */
   // Test interface - Prompts input for 1-5, performs search, insert, remove, sort, and range search respectively
   while(true){
     ostringstream out;
@@ -176,12 +229,17 @@ int main(){
 	  auto start = std::chrono::high_resolution_clock::now();
           int result = ht->search(w);
           auto stop = std::chrono::high_resolution_clock::now();
+	  auto start1 = std::chrono::high_resolution_clock::now();
+          int result1 = bst->search(w, bst->head);
+	  auto stop1 = std::chrono::high_resolution_clock::now();
 
 	  std::chrono::duration<double, std::milli> execTime = stop - start;
-	  if(result == -1)
+	  std::chrono::duration<double, std::milli> execTime1 = stop1 - start1;
+	  if(result == -1 || result1 == -1)
 	    cout << "false" << endl;
 	  else
 	    cout << "true" << endl;
+	  cout << "BST: " << execTime1.count() << endl;
 	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
@@ -194,8 +252,15 @@ int main(){
           ht->insert(w);
           auto stop = std::chrono::high_resolution_clock::now();
 
-          std::chrono::duration<double, std::milli> execTime = stop - start;
+	  auto start1 = std::chrono::high_resolution_clock::now();
+          bst->head = bst->insert(w, bst->head);
+          auto stop1 = std::chrono::high_resolution_clock::now();
+
+	  std::chrono::duration<double, std::milli> execTime = stop - start;
+	  std::chrono::duration<double, std::milli> execTime1 = stop1 - start1;
+	  cout << "BST: " << execTime1.count() << endl;
 	  cout << "Hash: " << execTime.count() << endl;
+	  
 	  break;
 	}
 
@@ -206,8 +271,13 @@ int main(){
 	  auto start = std::chrono::high_resolution_clock::now();
 	  ht->remove(w);
 	  auto stop = std::chrono::high_resolution_clock::now();
+	  auto start1 = std::chrono::high_resolution_clock::now();
+          bst->head = bst->del(w, bst->head);
+          auto stop1 = std::chrono::high_resolution_clock::now();
 
-	  std::chrono::duration<double, std::milli> execTime = stop - start;
+          std::chrono::duration<double, std::milli> execTime = stop - start;
+          std::chrono::duration<double, std::milli> execTime1 = stop1 - start1;
+          cout << "BST: " << execTime1.count() << endl;
 	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
@@ -220,7 +290,15 @@ int main(){
 	  ht->sort(w);
 	  auto stop = std::chrono::high_resolution_clock::now();
 
-	  std::chrono::duration<double, std::milli> execTime = stop - start;
+	  
+          auto start1 = std::chrono::high_resolution_clock::now();
+          bst->sort(w, bst->head);
+          auto stop1 = std::chrono::high_resolution_clock::now();
+
+          std::chrono::duration<double, std::milli> execTime = stop - start;
+          std::chrono::duration<double, std::milli> execTime1 = stop1 - start1;
+	  
+	  
 	  cout << "Hash: " << execTime.count() << endl;
 	  break;
 	}
@@ -235,7 +313,14 @@ int main(){
 	ht->rangeSearch(w, w2);
 	auto stop = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double, std::milli> execTime = stop-start;
+	auto start1 = std::chrono::high_resolution_clock::now();
+        bst->rangeSearch(w, w2, bst->head);
+        auto stop1 = std::chrono::high_resolution_clock::now();
+	  
+        std::chrono::duration<double, std::milli> execTime = stop - start;
+        std::chrono::duration<double, std::milli> execTime1 = stop1 - start1;
+	
+	cout << "BST: " << execTime1.count() << endl;
 	cout << "Hash: " << execTime.count() << endl;
 	break;
       }
